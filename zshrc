@@ -9,3 +9,7 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 antigen theme tylerreckart/odin odin
 
 antigen apply
+
+alias v='NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim'
+alias vim='NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim'
+alias groot='cd $(git rev-parse --show-toplevel)'
