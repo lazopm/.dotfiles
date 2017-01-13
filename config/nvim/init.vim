@@ -7,9 +7,10 @@ endif
 
 " Basics
 let mapleader = ','
-set expandtab
+filetype plugin indent on
+set tabstop=4
 set shiftwidth=4
-set softtabstop=4
+set expandtab
 set relativenumber
 set number
 
@@ -31,10 +32,12 @@ endif
 syntax enable
 set background=dark
 let g:airline_theme='oceanicnext'
+let g:airline_powerline_fonts = 1
 
 " Tmux integration
 Plug 'christoomey/vim-tmux-navigator'
 nnoremap <silent> <BS> :TmuxNavigateLeft<cr>
+Plug 'edkolev/tmuxline.vim'
 
 " Search
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -45,11 +48,11 @@ nnoremap <silent> <leader>a :Buffers<CR>
 nnoremap <silent> <leader>; :BLines<CR>
 nnoremap <silent> <leader>? :History<CR>
 
-"Javascript Syntax
-Plug 'othree/yajs.vim'
+" Javascript Syntax
+Plug 'pangloss/vim-javascript'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'othree/es.next.syntax.vim'
-Plug 'mxw/vim-jsx'
-let g:jsx_ext_required = 0
 
 call plug#end()
 
