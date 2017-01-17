@@ -10,8 +10,9 @@ antigen theme lazopm/odin odin
 
 antigen apply
 
-alias v='NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim'
-alias vim='NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim'
+alias v='nvim'
+alias vim='nvim'
+alias nvim='nvim'
 alias groot='cd $(git rev-parse --show-toplevel)'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

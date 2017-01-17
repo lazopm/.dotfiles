@@ -25,6 +25,7 @@ let g:NERDTreeWinPos = "right"
 " Theme
 Plug 'mhartington/oceanic-next'
 Plug 'vim-airline/vim-airline'
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 if (has("termguicolors"))
     set termguicolors
 endif
