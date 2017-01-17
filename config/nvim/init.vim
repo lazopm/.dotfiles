@@ -52,7 +52,6 @@ nnoremap <silent> <leader>? :History<CR>
 " Snippets
 Plug 'SirVer/ultisnips'
 let g:UltiSnipsSnippetDir=$HOME.'/.config/nvim/UltiSnips'
-let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
@@ -67,8 +66,10 @@ Plug 'tpope/vim-surround'
     Plug 'othree/javascript-libraries-syntax.vim'
     Plug 'othree/es.next.syntax.vim'
 
+    " HTML
+    Plug 'othree/html5.vim'
     " Nunjucks/Jinja
-    Plug 'lepture/vim-jinja'
+    Plug 'Glench/Vim-Jinja2-Syntax'
     au BufNewFile,BufRead *.html,*.htm,*.shtml,*.stm,*.nunj set ft=jinja
 
 " Git helpers
