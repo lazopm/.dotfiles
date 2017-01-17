@@ -51,7 +51,7 @@ nnoremap <silent> <leader>? :History<CR>
 
 " Snippets
 Plug 'SirVer/ultisnips'
-let g:UltiSnipsSnippetDir=$HOME.'/.config/nvim/UltiSnips'
+let g:UltiSnipsSnippetDirectories=[$HOME.'/.config/nvim/UltiSnips', 'UltiSnips']
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
@@ -73,10 +73,7 @@ Plug 'tpope/vim-surround'
     au BufNewFile,BufRead *.html,*.htm,*.shtml,*.stm,*.nunj set ft=jinja
 
 " Git helpers
-Plug 'tpope/vim-fugitive'
-Plug 'jreybert/vimagit'
 Plug 'airblade/vim-gitgutter'
-Plug 'https://github.com/jaxbot/github-issues.vim'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 call plug#end()
