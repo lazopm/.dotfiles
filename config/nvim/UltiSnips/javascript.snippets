@@ -1,0 +1,30 @@
+#React component
+snippet react
+import React, {Component} from 'react';
+
+class $1 extends Component {
+	render() {
+		const {$2} = this.props;
+		return (
+			<div>
+				$0
+			</div>
+		);
+	}
+}
+
+export default $1
+endsnippet
+
+#React stateless component
+snippet reactf
+import React from 'react';
+
+const $1 = (${2:props}) => (
+	<div>
+		$0
+	</div>
+);
+
+export default $1;
+endsnippet

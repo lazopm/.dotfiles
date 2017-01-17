@@ -7,7 +7,6 @@ endif
 
 " Basics
 let mapleader = ','
-filetype plugin indent on
 set tabstop=4
 set shiftwidth=4
 set expandtab
@@ -50,6 +49,11 @@ nnoremap <silent> <leader>? :History<CR>
 
 " Snippets
 Plug 'SirVer/ultisnips'
+let g:UltiSnipsSnippetDir=$HOME.'/.config/nvim/UltiSnips'
+let g:UltiSnipsSnippetDirectories=["UltiSnips"]
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " Utils
 Plug 'tpope/vim-surround'
