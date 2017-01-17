@@ -48,6 +48,9 @@ nnoremap <silent> <leader>a :Buffers<CR>
 nnoremap <silent> <leader>; :BLines<CR>
 nnoremap <silent> <leader>? :History<CR>
 
+" Snippets
+Plug 'SirVer/ultisnips'
+
 " Utils
 Plug 'tpope/vim-surround'
 
