@@ -17,7 +17,7 @@ set number
 call plug#begin('~/.vim/plugged')
 
 " File tree
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 map <leader>n :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
@@ -48,12 +48,59 @@ nnoremap <silent> <leader>a :Buffers<CR>
 nnoremap <silent> <leader>; :BLines<CR>
 nnoremap <silent> <leader>? :History<CR>
 
-" Javascript Syntax
-Plug 'pangloss/vim-javascript'
-Plug 'maxmellon/vim-jsx-pretty'
-Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'othree/es.next.syntax.vim'
+" Utils
+Plug 'tpope/vim-surround'
+
+"SYNTAX
+    " Javascript 
+    Plug 'pangloss/vim-javascript'
+    Plug 'maxmellon/vim-jsx-pretty'
+    Plug 'othree/javascript-libraries-syntax.vim'
+    Plug 'othree/es.next.syntax.vim'
+
+    " Nunjucks/Jinja
+    Plug 'lepture/vim-jinja'
+    au BufNewFile,BufRead *.html,*.htm,*.shtml,*.stm,*.nunj set ft=jinja
+
+" Git helpers
+Plug 'tpope/vim-fugitive'
+Plug 'jreybert/vimagit'
+Plug 'airblade/vim-gitgutter'
+Plug 'https://github.com/jaxbot/github-issues.vim'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 call plug#end()
 
 colorscheme OceanicNext
+" NERDTree 
+  map <leader>nn :NERDTreeToggle<CR>
+  map <leader>nf :NERDTreeFind<CR>
+  let NERDTreeShowHidden=1
+  let g:NERDTreeWinSize=45
+  let g:NERDTreeAutoDeleteBuffer=1
+" NERDTress File highlighting
+  function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+  exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+  exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+  endfunction
+  "File type coloring
+  call NERDTreeHighlightFile('jade', 'green', 'none', 'green', 'none')
+  call NERDTreeHighlightFile('md', 'blue', 'none', '#6699CC', 'none')
+  call NERDTreeHighlightFile('config', 'yellow', 'none', '#d8a235', 'none')
+  call NERDTreeHighlightFile('conf', 'yellow', 'none', '#d8a235', 'none')
+  call NERDTreeHighlightFile('json', 'green', 'none', '#d8a235', 'none')
+  call NERDTreeHighlightFile('html', 'yellow', 'none', '#d8a235', 'none')
+  call NERDTreeHighlightFile('css', 'cyan', 'none', '#5486C0', 'none')
+  call NERDTreeHighlightFile('scss', 'cyan', 'none', '#5486C0', 'none')
+  call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', 'none')
+  call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', 'none')
+  call NERDTreeHighlightFile('ts', 'Blue', 'none', '#6699cc', 'none')
+  call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', 'none')
+  call NERDTreeHighlightFile('gitconfig', 'black', 'none', '#686868', 'none')
+  call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#7F7F7F', 'none')
+  call NERDTreeHighlightFile('nunj', 'Green', 'none', '#35d8a2', 'none')
+  call NERDTreeHighlightFile('jsx', 'Blue', 'none', '#7DD7FF', 'none')
+  let NERDTreeIgnore = ['\.pyc$']
+  let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {}
+  let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['nunj'] = '%'
+"}}}
