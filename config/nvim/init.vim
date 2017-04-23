@@ -63,8 +63,6 @@ Plug 'tpope/vim-surround'
     " Javascript 
     Plug 'pangloss/vim-javascript'
     Plug 'maxmellon/vim-jsx-pretty'
-    Plug 'othree/javascript-libraries-syntax.vim'
-    Plug 'othree/es.next.syntax.vim'
 
     " HTML
     Plug 'othree/html5.vim'
