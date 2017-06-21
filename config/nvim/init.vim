@@ -13,6 +13,8 @@ set expandtab
 set relativenumber
 set number
 set hidden
+set backupcopy=yes
+set smartcase
 
 call plug#begin('~/.vim/plugged')
 
