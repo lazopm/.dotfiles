@@ -15,6 +15,7 @@ set number
 set hidden
 set backupcopy=yes
 set smartcase
+set autochdir
 
 call plug#begin('~/.vim/plugged')
 
@@ -58,8 +59,12 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
-" Utils
+"UI
+Plug 'Shougo/denite.nvim'
+
+"UTILS
 Plug 'tpope/vim-surround'
+Plug 'Shougo/neoyank.vim'
 
 "SYNTAX
     " Javascript 
@@ -71,6 +76,28 @@ Plug 'tpope/vim-surround'
     " Nunjucks/Jinja
     Plug 'Glench/Vim-Jinja2-Syntax'
     au BufNewFile,BufRead *.html,*.htm,*.shtml,*.stm,*.nunj set ft=jinja
+
+"LINT
+Plug 'w0rp/ale'
+
+let g:ale_fixers = { 'javascript': ['eslint'] }
+let g:ale_linters = { 'javascript': ['eslint'] }
+
+"AUTOCOMPLETE
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+let g:deoplete#enable_at_startup = 1
+let g:tern_request_timeout = 0.25 
+let g:tern_show_signature_in_pum = '0'  " This do disable full signature type on autocomplete
+let g:tern#command = ["tern"]
+let g:tern#arguments = ["--persistent"]
+set completeopt-=preview
+" deoplete tab-complete
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+" tern
+autocmd FileType javascript nnoremap <silent> <buffer> gb :TernDef<CR>
+
 
 " Git helpers
 Plug 'airblade/vim-gitgutter'
@@ -111,3 +138,16 @@ colorscheme OceanicNext
   let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {}
   let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['nunj'] = '%'
 "}}}
+
+call denite#custom#map(
+    \ 'insert',
+    \ '<C-j>',
+    \ '<denite:move_to_next_line>',
+    \ 'noremap'
+    \)
+call denite#custom#map(
+    \ 'insert',
+    \ '<C-k>',
+    \ '<denite:move_to_previous_line>',
+    \ 'noremap'
+    \)

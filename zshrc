@@ -20,3 +20,4 @@ alias groot='cd $(git rev-parse --show-toplevel)'
 export PATH="$HOME/.linuxbrew/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
   . "/home/lazop/.linuxbrew/opt/nvm/nvm.sh"
+ulimit -n 2048
