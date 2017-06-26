@@ -47,10 +47,11 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 let g:fzf_nvim_statusline = 0
-nnoremap <silent> <leader>, :Files<CR>
-nnoremap <silent> <leader>a :Buffers<CR>
-nnoremap <silent> <leader>; :BLines<CR>
-nnoremap <silent> <leader>? :History<CR>
+nnoremap <silent> <leader>, :GFiles<CR>
+nnoremap <silent> <leader>< :GFiles?<CR>
+nnoremap <silent> <leader>. :History<CR>
+nnoremap <silent> <leader>> :Buffers<CR>
+nnoremap <silent> <leader>/ :Lines<CR>
 
 " Snippets
 Plug 'SirVer/ultisnips'
