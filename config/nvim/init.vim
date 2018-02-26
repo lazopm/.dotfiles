@@ -13,18 +13,28 @@ set expandtab
 set relativenumber
 set number
 set hidden
-set backupcopy=yes
 set smartcase
-set autochdir
+autocmd BufEnter * if &ft !~ '^nerdtree$' | silent! lcd %:p:h | endif
+tnoremap <Esc> <C-\><C-n>
 
 call plug#begin('~/.vim/plugged')
 
-" File tree
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-map <leader>n :NERDTreeToggle<CR>
-let NERDTreeShowHidden=1
-let g:NERDTreeWinPos = "right"
+" File editor
+Plug 'rbgrouleff/bclose.vim'
+Plug 'francoiscabrol/ranger.vim'
+augroup ranger
+    au!
+    au VimEnter * sil! au! FileExplorer *
+    au BufEnter * if s:isdir(expand('%')) | bd | exe 'Ranger' | endif
+augroup END
+
+fu! s:isdir(dir) abort
+    return !empty(a:dir) && (isdirectory(a:dir) ||
+                \ (!empty($SYSTEMDRIVE) && isdirectory('/'.tolower($SYSTEMDRIVE[0]).a:dir)))
+endfu
+
+let g:ranger_map_keys = 0
+map <leader>n :Ranger<CR>
 
 " Theme
 Plug 'mhartington/oceanic-next'
@@ -83,6 +93,10 @@ Plug 'w0rp/ale'
 
 let g:ale_fixers = { 'javascript': ['eslint'] }
 let g:ale_linters = { 'javascript': ['eslint'] }
+let g:ale_sign_error = '!'
+let g:ale_sign_warning = '?'
+nnoremap <silent> <leader>l :ALEFix<CR>
+
 
 "AUTOCOMPLETE
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -102,43 +116,10 @@ autocmd FileType javascript nnoremap <silent> <buffer> gb :TernDef<CR>
 
 " Git helpers
 Plug 'airblade/vim-gitgutter'
-Plug 'Xuyuanp/nerdtree-git-plugin'
 
 call plug#end()
 
 colorscheme OceanicNext
-" NERDTree 
-  map <leader>nn :NERDTreeToggle<CR>
-  map <leader>nf :NERDTreeFind<CR>
-  let NERDTreeShowHidden=1
-  let g:NERDTreeWinSize=45
-  let g:NERDTreeAutoDeleteBuffer=1
-" NERDTress File highlighting
-  function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
-  exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
-  exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-  endfunction
-  "File type coloring
-  call NERDTreeHighlightFile('jade', 'green', 'none', 'green', 'none')
-  call NERDTreeHighlightFile('md', 'blue', 'none', '#6699CC', 'none')
-  call NERDTreeHighlightFile('config', 'yellow', 'none', '#d8a235', 'none')
-  call NERDTreeHighlightFile('conf', 'yellow', 'none', '#d8a235', 'none')
-  call NERDTreeHighlightFile('json', 'green', 'none', '#d8a235', 'none')
-  call NERDTreeHighlightFile('html', 'yellow', 'none', '#d8a235', 'none')
-  call NERDTreeHighlightFile('css', 'cyan', 'none', '#5486C0', 'none')
-  call NERDTreeHighlightFile('scss', 'cyan', 'none', '#5486C0', 'none')
-  call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', 'none')
-  call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', 'none')
-  call NERDTreeHighlightFile('ts', 'Blue', 'none', '#6699cc', 'none')
-  call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', 'none')
-  call NERDTreeHighlightFile('gitconfig', 'black', 'none', '#686868', 'none')
-  call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#7F7F7F', 'none')
-  call NERDTreeHighlightFile('nunj', 'Green', 'none', '#35d8a2', 'none')
-  call NERDTreeHighlightFile('jsx', 'Blue', 'none', '#7DD7FF', 'none')
-  let NERDTreeIgnore = ['\.pyc$']
-  let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {}
-  let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['nunj'] = '%'
-"}}}
 
 call denite#custom#map(
     \ 'insert',
@@ -152,3 +133,5 @@ call denite#custom#map(
     \ '<denite:move_to_previous_line>',
     \ 'noremap'
     \)
+
+highlight ALEErrorSign ctermfg=203 ctermbg=237 guifg=#ec5f67 guibg=#343d46
