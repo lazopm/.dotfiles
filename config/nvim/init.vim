@@ -7,15 +7,14 @@ endif
 
 " Basics
 let mapleader = ','
+set expandtab
 set tabstop=4
 set shiftwidth=4
-set expandtab
 set relativenumber
 set number
 set hidden
+set ignorecase
 set smartcase
-autocmd BufEnter * if &ft !~ '^nerdtree$' | silent! lcd %:p:h | endif
-tnoremap <Esc> <C-\><C-n>
 
 call plug#begin('~/.vim/plugged')
 
@@ -63,13 +62,6 @@ nnoremap <silent> <leader>. :History<CR>
 nnoremap <silent> <leader>> :Buffers<CR>
 nnoremap <silent> <leader>/ :Lines<CR>
 
-" Snippets
-Plug 'SirVer/ultisnips'
-let g:UltiSnipsSnippetDirectories=[$HOME.'/.config/nvim/UltiSnips', 'UltiSnips']
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-
 "UI
 Plug 'Shougo/denite.nvim'
 
@@ -82,11 +74,11 @@ Plug 'Shougo/neoyank.vim'
     Plug 'pangloss/vim-javascript'
     Plug 'maxmellon/vim-jsx-pretty'
 
+    " graphql
+    Plug 'jparise/vim-graphql'
+
     " HTML
     Plug 'othree/html5.vim'
-    " Nunjucks/Jinja
-    Plug 'Glench/Vim-Jinja2-Syntax'
-    au BufNewFile,BufRead *.html,*.htm,*.shtml,*.stm,*.nunj set ft=jinja
 
 "LINT
 Plug 'w0rp/ale'
@@ -100,19 +92,32 @@ nnoremap <silent> <leader>l :ALEFix<CR>
 
 "AUTOCOMPLETE
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
-Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 let g:deoplete#enable_at_startup = 1
-let g:tern_request_timeout = 0.25 
-let g:tern_show_signature_in_pum = '0'  " This do disable full signature type on autocomplete
-let g:tern#command = ["tern"]
-let g:tern#arguments = ["--persistent"]
-set completeopt-=preview
-" deoplete tab-complete
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-" tern
-autocmd FileType javascript nnoremap <silent> <buffer> gb :TernDef<CR>
 
+" deoplete tab-complete
+inoremap <silent><expr> <TAB>
+    \ pumvisible() ? "\<C-n>" :
+    \ <SID>check_back_space() ? "\<TAB>" :
+    \ deoplete#mappings#manual_complete()
+function! s:check_back_space() abort "{{{
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
+
+"JS Autocomplete
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+let g:LanguageClient_serverCommands = {
+    \ 'javascript': ['javascript-typescript-stdio'],
+    \ }
+let g:LanguageClient_loggingLevel = 'DEBUG'
+let g:LanguageClient_devel = 1
+
+nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 
 " Git helpers
 Plug 'airblade/vim-gitgutter'
