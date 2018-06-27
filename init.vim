@@ -49,7 +49,12 @@ let g:airline_powerline_fonts = 1
 
 " Tmux integration
 Plug 'christoomey/vim-tmux-navigator'
-nnoremap <silent> <BS> :TmuxNavigateLeft<cr>
+let g:tmux_navigator_no_mappings = 1
+nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
+nnoremap <silent> <C-\> :TmuxNavigatePrevious<cr>
 Plug 'edkolev/tmuxline.vim'
 
 " Search
@@ -62,12 +67,8 @@ nnoremap <silent> <leader>. :History<CR>
 nnoremap <silent> <leader>> :Buffers<CR>
 nnoremap <silent> <leader>/ :Lines<CR>
 
-"UI
-Plug 'Shougo/denite.nvim'
-
 "UTILS
 Plug 'tpope/vim-surround'
-Plug 'Shougo/neoyank.vim'
 
 "SYNTAX
     " Javascript 
@@ -104,39 +105,11 @@ function! s:check_back_space() abort "{{{
     return !col || getline('.')[col - 1]  =~ '\s'
 endfunction"}}}
 
-"JS Autocomplete
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
-let g:LanguageClient_serverCommands = {
-    \ 'javascript': ['javascript-typescript-stdio'],
-    \ }
-let g:LanguageClient_loggingLevel = 'DEBUG'
-let g:LanguageClient_devel = 1
-
-nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-
 " Git helpers
 Plug 'airblade/vim-gitgutter'
 
 call plug#end()
 
 colorscheme OceanicNext
-
-call denite#custom#map(
-    \ 'insert',
-    \ '<C-j>',
-    \ '<denite:move_to_next_line>',
-    \ 'noremap'
-    \)
-call denite#custom#map(
-    \ 'insert',
-    \ '<C-k>',
-    \ '<denite:move_to_previous_line>',
-    \ 'noremap'
-    \)
 
 highlight ALEErrorSign ctermfg=203 ctermbg=237 guifg=#ec5f67 guibg=#343d46
