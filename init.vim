@@ -21,6 +21,7 @@ call plug#begin('~/.vim/plugged')
 " File editor
 Plug 'rbgrouleff/bclose.vim'
 Plug 'francoiscabrol/ranger.vim'
+let g:ranger_command_override = 'ranger --cmd "set show_hidden=true"'
 augroup ranger
     au!
     au VimEnter * sil! au! FileExplorer *
@@ -84,8 +85,8 @@ Plug 'tpope/vim-surround'
 "LINT
 Plug 'w0rp/ale'
 
-let g:ale_fixers = { 'javascript': ['eslint'] }
-let g:ale_linters = { 'javascript': ['eslint'] }
+let g:ale_fixers = { 'javascript': ['prettier'] }
+let g:ale_linters = { 'javascript': ['prettier'] }
 let g:ale_sign_error = '!'
 let g:ale_sign_warning = '?'
 nnoremap <silent> <leader>l :ALEFix<CR>
