@@ -46,10 +46,10 @@ endif
 syntax enable
 set background=dark
 let g:airline_theme='oceanicnext'
-let g:airline_powerline_fonts = 1
 
 " Tmux integration
 Plug 'christoomey/vim-tmux-navigator'
+let g:tmuxline_powerline_separators = 0
 let g:tmux_navigator_no_mappings = 1
 nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
 nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
