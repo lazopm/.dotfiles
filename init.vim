@@ -1,40 +1,25 @@
 " Autoinstall vim-plug
-if empty(glob('~/.nvim/autoload/plug.vim'))
-  silent !curl -fLo ~/.nvim/autoload/plug.vim --create-dirs
+if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+  silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 " Basics
 let mapleader = ','
-set expandtab
-set tabstop=4
-set shiftwidth=4
+set tabstop=4 shiftwidth=4 expandtab
 set relativenumber
 set number
-set hidden
+" Keep buffers around
+set hidden 
+" Better /search
 set ignorecase
 set smartcase
 
 call plug#begin('~/.vim/plugged')
 
-" File editor
-Plug 'rbgrouleff/bclose.vim'
-Plug 'francoiscabrol/ranger.vim'
-let g:ranger_command_override = 'ranger --cmd "set show_hidden=true"'
-augroup ranger
-    au!
-    au VimEnter * sil! au! FileExplorer *
-    au BufEnter * if s:isdir(expand('%')) | bd | exe 'Ranger' | endif
-augroup END
-
-fu! s:isdir(dir) abort
-    return !empty(a:dir) && (isdirectory(a:dir) ||
-                \ (!empty($SYSTEMDRIVE) && isdirectory('/'.tolower($SYSTEMDRIVE[0]).a:dir)))
-endfu
-
-let g:ranger_map_keys = 0
-map <leader>n :Ranger<CR>
+" File explorer 
+" let g:netrw_banner = 0
 
 " Theme
 Plug 'mhartington/oceanic-next'
@@ -72,42 +57,35 @@ nnoremap <silent> <leader>/ :Lines<CR>
 Plug 'tpope/vim-surround'
 
 "SYNTAX
-    " Javascript 
-    Plug 'pangloss/vim-javascript'
-    Plug 'maxmellon/vim-jsx-pretty'
-
-    " graphql
-    Plug 'jparise/vim-graphql'
-
-    " HTML
-    Plug 'othree/html5.vim'
+Plug 'pangloss/vim-javascript'
+let g:javascript_plugin_flow = 1
 
 "LINT
 Plug 'w0rp/ale'
-
-let g:ale_fixers = { 'javascript': ['prettier'] }
-let g:ale_linters = { 'javascript': ['prettier'] }
+let b:ale_fixers = ['prettier', 'eslint']
+let b:ale_linters = ['eslint']
 let g:ale_sign_error = '!'
 let g:ale_sign_warning = '?'
-nnoremap <silent> <leader>l :ALEFix<CR>
+let g:ale_fix_on_save = 1
 
 
 "AUTOCOMPLETE
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-let g:deoplete#enable_at_startup = 1
+" A dependency of 'ncm2'.
+Plug 'roxma/nvim-yarp'
+" v2 of the nvim-completion-manager.
+Plug 'ncm2/ncm2'
+" LanguageServer client for NeoVim.
+Plug 'autozimu/LanguageClient-neovim'
+" enable it for all buffers
+autocmd BufEnter  *  call ncm2#enable_for_buffer()
+set completeopt=noinsert,menuone,noselect
+let g:LanguageClient_serverCommands = {
+  \ 'javascript': ['flow', 'lsp']
+  \ }
+Plug 'ncm2/ncm2-bufword'
 
-" deoplete tab-complete
-inoremap <silent><expr> <TAB>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<TAB>" :
-    \ deoplete#mappings#manual_complete()
-function! s:check_back_space() abort "{{{
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-endfunction"}}}
-
-" Git helpers
-Plug 'airblade/vim-gitgutter'
+" GIT
+Plug 'mhinz/vim-signify'
 
 call plug#end()
 
