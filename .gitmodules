@@ -1,6 +1,0 @@
-[submodule ".submodules/antigen"]
-	path = .submodules/antigen
-	url = https://github.com/zsh-users/antigen
-[submodule "dotbot"]
-	path = dotbot
-	url = https://github.com/anishathalye/dotbot
